@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'Pages/HomePageWidget.dart';
 
@@ -77,8 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Row(
           children: <Widget>[_titleIcons[_selectIndex], Text(_title)],
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.settings),
+          ),
+        ],
       ),
       body: HomePageWidget(),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
