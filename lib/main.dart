@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, appBarTheme: const AppBarTheme(color: Colors.black)),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: DefaultTabController(
       //     length: 3,
@@ -59,16 +57,16 @@ class _MyHomePageState extends State<MyHomePage> {
   String _title = "Home";
   final _titles = ["Home", "History"];
   final _titleIcons = [const Icon(Icons.grass), const Icon(Icons.query_stats_rounded)];
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  final _pages = <Widget>[const HomePageWidget(), const Text('Not yet')];
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: Drawer(),
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -82,13 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: HomePageWidget(),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: IndexedStack(
+        index: _selectIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(label: "Home", icon: Icon(Icons.grass_rounded)),
