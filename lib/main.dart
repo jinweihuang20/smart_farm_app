@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'Pages/HomePageWidget.dart';
 
@@ -56,6 +58,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   int _selectIndex = 0;
+  String _title = "Home";
+  final _titles = ["Home", "History"];
+  final _titleIcons = [const Icon(Icons.grass), const Icon(Icons.query_stats_rounded)];
 
   void _incrementCounter() {
     setState(() {
@@ -69,7 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Row(
+          children: <Widget>[_titleIcons[_selectIndex], Text(_title)],
+        ),
       ),
       body: HomePageWidget(),
       floatingActionButton: FloatingActionButton(
@@ -80,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(label: "Home", icon: Icon(Icons.grass_rounded)),
-          BottomNavigationBarItem(label: "History", icon: Icon(Icons.grass_rounded))
+          BottomNavigationBarItem(label: "History", icon: Icon(Icons.query_stats_sharp))
         ],
         currentIndex: _selectIndex,
         onTap: _onItemTapped,
@@ -91,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onItemTapped(int value) {
     setState(() {
       _selectIndex = value;
+      _title = _titles[_selectIndex];
     });
   }
 }
