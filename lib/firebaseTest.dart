@@ -7,7 +7,7 @@ import 'EventBuse.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
 DatabaseReference ref = FirebaseDatabase.instance.ref();
-DatabaseReference starCountRef = FirebaseDatabase.instance.ref('Megga');
+DatabaseReference starCountRef = FirebaseDatabase.instance.ref('SensingValues');
 
 class FirebaseDataListener {
   FirebaseDataListener() {
@@ -21,7 +21,11 @@ class FirebaseDataListener {
 
     starCountRef.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
-      eventBus.fire(Data('mega', double.parse(data.toString())));
+      Map<String, dynamic> _sensorValue = Map<String, dynamic>.from(data as Map);
+      print(_sensorValue);
+      Data mega = Data("Megga", double.parse(_sensorValue["Megga"].toString()));
+      Data d1wifi = Data("D1WiFi", double.parse(_sensorValue["D1WiFi"].toString()));
+      eventBus.fire(<Data>[mega, d1wifi]);
     });
   }
 }

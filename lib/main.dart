@@ -1,8 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'firebaseTest.dart';
-import 'EventBuse.dart';
+import 'Pages/HomePageWidget.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
@@ -56,27 +55,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  double _megaVal = 1;
+  int _selectIndex = 0;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
-    });
-  }
-
-  void _updateMegaVal() {
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    FirebaseDataListener listener = FirebaseDataListener();
-    listener.startListen();
-    eventBus.on<Data>().listen((event) {
-      _megaVal = event.value;
-      print(_megaVal);
-      _updateMegaVal();
     });
   }
 
@@ -88,32 +71,26 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times23:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              '$_megaVal %',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+      body: HomePageWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(label: "Home", icon: Icon(Icons.grass_rounded)),
+          BottomNavigationBarItem(label: "History", icon: Icon(Icons.grass_rounded))
+        ],
+        currentIndex: _selectIndex,
+        onTap: _onItemTapped,
+      ),
     );
+  }
+
+  void _onItemTapped(int value) {
+    setState(() {
+      _selectIndex = value;
+    });
   }
 }
