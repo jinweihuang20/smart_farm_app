@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'Pages/HomePageWidget.dart';
+import 'Pages/HomePage/HomePageWidget.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
