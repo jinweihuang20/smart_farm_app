@@ -59,7 +59,13 @@ class _DetailInformationState extends State<DetailInformation> {
       body: Container(
         padding: const EdgeInsets.all(2),
         decoration: const BoxDecoration(color: Colors.black87),
-        child: ListView(children: [topWidget(humidity, updateTime), titleWidget("趨勢圖", Icons.trending_down_rounded), chartWidget]),
+        child: ListView(children: [
+          topWidget(humidity, updateTime),
+          titleWidget("趨勢圖", Icons.trending_down_rounded),
+          chartWidget,
+          titleWidget("控制", Icons.dynamic_form),
+          remoteControlsWidget()
+        ]),
       ),
     );
   }
@@ -137,6 +143,24 @@ class _DetailInformationState extends State<DetailInformation> {
               dataRows: dataRows,
               xlables: xlabels,
               legends: legends,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget remoteControlsWidget() {
+    return Card(
+      color: const Color.fromARGB(255, 9, 9, 9),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: 100,
+          width: double.infinity,
+          child: Center(
+            child: Column(
+              children: <Widget>[Text("data")],
             ),
           ),
         ),

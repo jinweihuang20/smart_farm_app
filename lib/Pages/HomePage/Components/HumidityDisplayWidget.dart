@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fbroadcast/fbroadcast.dart';
 import 'package:flutter/services.dart';
 import 'DetailInformation.dart';
+import 'WaterSwitchWidget.dart';
 
 /// 監控數據 Ｗidget
 class HumidityDisplayWidget extends StatefulWidget {
@@ -26,7 +27,7 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
   List<List<double>> dataRows = [[], []];
   List<String> xlabels = [];
   List<String> legends = ["Humidity", "Raw"];
-
+  bool waterOn = false;
   late Widget detailInformationWidget;
   @override
   void initState() {
@@ -190,12 +191,23 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
                       ],
                     ),
                   ),
-                  IconButton(
-                    onPressed: renameHandler,
-                    icon: const Icon(
-                      Icons.edit,
-                      color: Colors.blueGrey,
-                    ),
+                  Row(
+                    children: [
+                      const Text(
+                        "Water",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      WaterSwitchWidget(
+                        installIn: installIn,
+                      ),
+                      IconButton(
+                        onPressed: renameHandler,
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               )),
