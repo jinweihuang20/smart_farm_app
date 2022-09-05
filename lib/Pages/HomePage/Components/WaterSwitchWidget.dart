@@ -54,7 +54,7 @@ class WaterSwitchHttpRequest {
   }
 
   off() {
-    dynamic map = {"RelaySwitchReq": true};
+    dynamic map = {"RelaySwitchReq": false};
     patch(url, body: json.encode(map)).then((value) => {print(value.body)});
   }
 }
