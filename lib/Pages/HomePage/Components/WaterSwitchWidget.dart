@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -44,7 +46,7 @@ class _WaterSwitchWidgetState extends State<WaterSwitchWidget> {
 class WaterSwitchHttpRequest {
   dynamic url;
   WaterSwitchHttpRequest(String install) {
-    url = Uri.https("smartfarm-7f8c0-default-rtdb.firebaseio.com", 'SensingValues/${install}.json');
+    url = Uri.https("smartfarm-7f8c0-default-rtdb.firebaseio.com", 'SensingValues/$install.json');
   }
   on() {
     dynamic map = {"RelaySwitchReq": true};
