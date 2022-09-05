@@ -13,8 +13,8 @@ class DetailInformation extends StatefulWidget {
 class _DetailInformationState extends State<DetailInformation> {
   String get title => widget.data["Name"];
   dynamic sensorData;
-  dynamic get humidity => sensorData == null ? "?" : sensorData["Humidity"];
-  dynamic get updateTime => sensorData == null ? "?" : DateTimeFormat(sensorData["Datetime"]);
+  dynamic humidity = 0;
+  dynamic updateTime = "";
   List<List<double>> dataRows = [[]];
   List<String> xlabels = [];
   List<String> legends = ["Humidity"];
@@ -33,10 +33,13 @@ class _DetailInformationState extends State<DetailInformation> {
 
   @override
   void initState() {
-    chartWidget = ChartingWidget(title, dataRows, xlabels, legends);
+    humidity = widget.data["Humidity"];
+    chartWidget = chartingWidget(title, dataRows, xlabels, legends);
     super.initState();
     FBroadcast.instance().register(title, (value, callback) {
       setState(() {
+        humidity = value == null ? "?" : value["Humidity"];
+        updateTime = value == null ? "?" : DateTimeFormat(value["Datetime"]);
         sensorData = value;
       });
     });
@@ -55,14 +58,14 @@ class _DetailInformationState extends State<DetailInformation> {
       ),
       body: Container(
         padding: const EdgeInsets.all(2),
-        decoration: BoxDecoration(color: Colors.black87),
+        decoration: const BoxDecoration(color: Colors.black87),
         child: ListView(children: [topWidget(humidity, updateTime), titleWidget("趨勢圖", Icons.trending_down_rounded), chartWidget]),
       ),
     );
   }
 
   Widget titleWidget(String text, IconData icon) {
-    Color _color = Color.fromARGB(223, 255, 255, 255);
+    Color _color = const Color.fromARGB(223, 255, 255, 255);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -83,7 +86,7 @@ class _DetailInformationState extends State<DetailInformation> {
   Widget topWidget(dynamic humidity, String updateTime) {
     Color foreColor = Colors.white;
     return Card(
-      color: Color.fromARGB(255, 80, 121, 141),
+      color: const Color.fromARGB(255, 80, 121, 141),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -97,7 +100,7 @@ class _DetailInformationState extends State<DetailInformation> {
                   color: Color.fromARGB(255, 89, 166, 230),
                 ),
                 Text(
-                  "$humidity",
+                  "$humidity %",
                   style: TextStyle(color: foreColor),
                 )
               ],
@@ -120,7 +123,7 @@ class _DetailInformationState extends State<DetailInformation> {
     );
   }
 
-  Widget ChartingWidget(String name, List<List<double>> dataRows, List<String> xlabels, List<String> legends) {
+  Widget chartingWidget(String name, List<List<double>> dataRows, List<String> xlabels, List<String> legends) {
     return Card(
       color: const Color.fromARGB(255, 0, 0, 0),
       child: Padding(

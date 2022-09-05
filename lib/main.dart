@@ -17,34 +17,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue, appBarTheme: const AppBarTheme(color: Colors.black)),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: DefaultTabController(
-      //     length: 3,
-      //     child: Scaffold(
-      //       appBar: AppBar(
-      //           title: const Text("Demo"),
-      //           bottom: const TabBar(tabs: [
-      //             Tab(text: "臥草", icon: Icon(Icons.grass)),
-      //             Tab(text: "History", icon: Icon(Icons.query_stats_rounded)),
-      //             Tab(text: "設定", icon: Icon(Icons.settings_applications_outlined))
-      //           ])),
-      //       body: const TabBarView(children: [Icon(Icons.abc), Icon(Icons.baby_changing_station_rounded), Icon(Icons.cabin)]),
-      //     )),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override

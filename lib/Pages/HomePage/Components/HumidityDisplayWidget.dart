@@ -22,7 +22,7 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
   dynamic get raw => sensorData == null ? -1.0 : double.parse(sensorData["Raw"].toString()).toStringAsFixed(2);
   String installIn = 'Unknown';
   String _newNameInput = '';
-
+  late TextEditingController _textEditingController;
   List<List<double>> dataRows = [[], []];
   List<String> xlabels = [];
   List<String> legends = ["Humidity", "Raw"];
@@ -34,8 +34,7 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
 
     super.initState();
     installIn = widget.installIn == null ? installIn : widget.installIn.toString();
-    dynamic data = {"Name": installIn};
-    detailInformationWidget = DetailInformation(data: data);
+
     FBroadcast.instance().register(installIn, (value, callback) {
       setState(() {
         sensorData = value;
@@ -55,6 +54,7 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
         if (xlabels.length > 10) {
           xlabels.removeAt(0);
           dataRows[0].removeAt(0);
+          dataRows[1].removeAt(0);
         }
         broadcastChartData();
       });
@@ -83,6 +83,7 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
   }
 
   void changeName() {
+    if (_newNameInput == '') return;
     setState(() {
       installIn = _newNameInput;
     });
@@ -90,20 +91,22 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
 
   void renameHandler() {
     print('$installIn wanna rename');
-
+    _textEditingController = TextEditingController(text: installIn);
     AlertDialog dialog = AlertDialog(
       title: Text('重新命名[$installIn]'),
       content: SizedBox(
         height: MediaQuery.of(context).size.height * 0.1,
         child: Center(
           child: TextFormField(
+            autofocus: true,
+            controller: _textEditingController,
             onChanged: (newValue) {
               _newNameInput = newValue;
               print(_newNameInput);
             },
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'Enter your username',
+              labelText: '輸入一個你喜歡的名稱',
             ),
           ),
         ),
@@ -138,8 +141,8 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
   }
 
   void showDetailPage() {
-    dynamic data = {"Name": installIn};
-
+    dynamic data = {"Name": installIn, "Humidity": humidity};
+    detailInformationWidget = DetailInformation(data: data);
     FBroadcast.instance().register('chart-$installIn-req', (value, callback) {
       callback!({
         "dataRows": dataRows,
@@ -175,6 +178,7 @@ class _HumidityDisplayWidget extends State<HumidityDisplayWidget> {
                             padding: EdgeInsets.only(right: 0),
                             child: Icon(
                               Icons.location_on_sharp,
+                              size: 16,
                               color: Color.fromARGB(255, 186, 82, 74),
                             )),
                         TextButton(
